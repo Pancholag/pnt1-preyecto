@@ -11,7 +11,7 @@ namespace PNT_PROYECTO.Models
         public string? Titulo { get; set; }
         
         //public List<String> Imagenes { get; set; }
-       //necesita key??
+        //necesita key??
         //public Material()
         //{
         //    Imagenes = new List<string>();

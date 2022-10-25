@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PNT_PROYECTO.Data;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<PNT_PROYECTOContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PNT_PROYECTOContext") ?? throw new InvalidOperationException("Connection string 'PNT_PROYECTOContext' not found.")));
+    options.UseSqlite(@"filename=C:\Temp\Stock.db"));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
