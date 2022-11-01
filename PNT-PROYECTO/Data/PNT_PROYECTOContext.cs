@@ -9,7 +9,7 @@ namespace PNT_PROYECTO.Data
 {
     public class PNT_PROYECTOContext : DbContext
     {
-        public PNT_PROYECTOContext (DbContextOptions<PNT_PROYECTOContext> options)
+        public PNT_PROYECTOContext(DbContextOptions<PNT_PROYECTOContext> options)
             : base(options)
         {
         }

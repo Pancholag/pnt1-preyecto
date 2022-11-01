@@ -54,7 +54,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Legajo,Nombre,Apellido,Mail")] Persona persona)
+        public async Task<IActionResult> Create([Bind("Legajo,NombreApellido,Mail")] Persona persona)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Legajo,Nombre,Apellido,Mail")] Persona persona)
+        public async Task<IActionResult> Edit(int id, [Bind("Legajo,NombreApellido,Mail")] Persona persona)
         {
             if (id != persona.Legajo)
             {

@@ -6,8 +6,7 @@ namespace PNT_PROYECTO.Models
     {
         [Key]
         public int Legajo { get; set; }
-        public string? Nombre { get; set; }
-        public string? Apellido { get; set; }
+        public string? NombreApellido { get; set; }
         public string? Mail { get; set; }
 
     }

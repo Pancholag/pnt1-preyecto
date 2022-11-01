@@ -46,6 +46,7 @@ namespace PNT_PROYECTO.Controllers
         // GET: Materiales/Create
         public IActionResult Create()
         {
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido");
             return View();
         }
 
@@ -78,6 +79,7 @@ namespace PNT_PROYECTO.Controllers
             {
                 return NotFound();
             }
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", material.Legajo);
             return View(material);
         }
 
