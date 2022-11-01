@@ -10,85 +10,85 @@ using PNT_PROYECTO.Models;
 
 namespace PNT_PROYECTO.Controllers
 {
-    public class MaterialsController : Controller
+    public class ExamenesController : Controller
     {
         private readonly PNT_PROYECTOContext _context;
 
-        public MaterialsController(PNT_PROYECTOContext context)
+        public ExamenesController(PNT_PROYECTOContext context)
         {
             _context = context;
         }
 
-        // GET: Materials
+        // GET: Examenes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Material.ToListAsync());
+              return View(await _context.Examen.ToListAsync());
         }
 
-        // GET: Materials/Details/5
+        // GET: Examenes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Material == null)
+            if (id == null || _context.Examen == null)
             {
                 return NotFound();
             }
 
-            var material = await _context.Material
+            var examen = await _context.Examen
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (material == null)
+            if (examen == null)
             {
                 return NotFound();
             }
 
-            return View(material);
+            return View(examen);
         }
 
-        // GET: Materials/Create
+        // GET: Examenes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Materials/Create
+        // POST: Examenes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Link,Texto,Titulo")] Material material)
+        public async Task<IActionResult> Create([Bind("Id,Fecha,Titulo")] Examen examen)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(material);
+                _context.Add(examen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(material);
+            return View(examen);
         }
 
-        // GET: Materials/Edit/5
+        // GET: Examenes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Material == null)
+            if (id == null || _context.Examen == null)
             {
                 return NotFound();
             }
 
-            var material = await _context.Material.FindAsync(id);
-            if (material == null)
+            var examen = await _context.Examen.FindAsync(id);
+            if (examen == null)
             {
                 return NotFound();
             }
-            return View(material);
+            return View(examen);
         }
 
-        // POST: Materials/Edit/5
+        // POST: Examenes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Link,Texto,Titulo")] Material material)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Titulo")] Examen examen)
         {
-            if (id != material.Id)
+            if (id != examen.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace PNT_PROYECTO.Controllers
             {
                 try
                 {
-                    _context.Update(material);
+                    _context.Update(examen);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MaterialExists(material.Id))
+                    if (!ExamenExists(examen.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace PNT_PROYECTO.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(material);
+            return View(examen);
         }
 
-        // GET: Materials/Delete/5
+        // GET: Examenes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Material == null)
+            if (id == null || _context.Examen == null)
             {
                 return NotFound();
             }
 
-            var material = await _context.Material
+            var examen = await _context.Examen
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (material == null)
+            if (examen == null)
             {
                 return NotFound();
             }
 
-            return View(material);
+            return View(examen);
         }
 
-        // POST: Materials/Delete/5
+        // POST: Examenes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Material == null)
+            if (_context.Examen == null)
             {
-                return Problem("Entity set 'PNT_PROYECTOContext.Material'  is null.");
+                return Problem("Entity set 'PNT_PROYECTOContext.Examen'  is null.");
             }
-            var material = await _context.Material.FindAsync(id);
-            if (material != null)
+            var examen = await _context.Examen.FindAsync(id);
+            if (examen != null)
             {
-                _context.Material.Remove(material);
+                _context.Examen.Remove(examen);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MaterialExists(int id)
+        private bool ExamenExists(int id)
         {
-          return _context.Material.Any(e => e.Id == id);
+          return _context.Examen.Any(e => e.Id == id);
         }
     }
 }

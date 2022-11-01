@@ -10,85 +10,85 @@ using PNT_PROYECTO.Models;
 
 namespace PNT_PROYECTO.Controllers
 {
-    public class ProfesorsController : Controller
+    public class MaterialesController : Controller
     {
         private readonly PNT_PROYECTOContext _context;
 
-        public ProfesorsController(PNT_PROYECTOContext context)
+        public MaterialesController(PNT_PROYECTOContext context)
         {
             _context = context;
         }
 
-        // GET: Profesors
+        // GET: Materiales
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Profesor.ToListAsync());
+              return View(await _context.Material.ToListAsync());
         }
 
-        // GET: Profesors/Details/5
+        // GET: Materiales/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Profesor == null)
+            if (id == null || _context.Material == null)
             {
                 return NotFound();
             }
 
-            var profesor = await _context.Profesor
-                .FirstOrDefaultAsync(m => m.Legajo == id);
-            if (profesor == null)
+            var material = await _context.Material
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (material == null)
             {
                 return NotFound();
             }
 
-            return View(profesor);
+            return View(material);
         }
 
-        // GET: Profesors/Create
+        // GET: Materiales/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Profesors/Create
+        // POST: Materiales/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FechaInicio,Descripcion,Tipo,Legajo,Nombre,Apellido,Mail")] Profesor profesor)
+        public async Task<IActionResult> Create([Bind("Id,Link,Texto,Titulo")] Material material)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(profesor);
+                _context.Add(material);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(profesor);
+            return View(material);
         }
 
-        // GET: Profesors/Edit/5
+        // GET: Materiales/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Profesor == null)
+            if (id == null || _context.Material == null)
             {
                 return NotFound();
             }
 
-            var profesor = await _context.Profesor.FindAsync(id);
-            if (profesor == null)
+            var material = await _context.Material.FindAsync(id);
+            if (material == null)
             {
                 return NotFound();
             }
-            return View(profesor);
+            return View(material);
         }
 
-        // POST: Profesors/Edit/5
+        // POST: Materiales/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("FechaInicio,Descripcion,Tipo,Legajo,Nombre,Apellido,Mail")] Profesor profesor)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Link,Texto,Titulo")] Material material)
         {
-            if (id != profesor.Legajo)
+            if (id != material.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace PNT_PROYECTO.Controllers
             {
                 try
                 {
-                    _context.Update(profesor);
+                    _context.Update(material);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProfesorExists(profesor.Legajo))
+                    if (!MaterialExists(material.Id))
                     {
                         return NotFound();
                     }
@@ -113,49 +113,49 @@ namespace PNT_PROYECTO.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(profesor);
+            return View(material);
         }
 
-        // GET: Profesors/Delete/5
+        // GET: Materiales/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Profesor == null)
+            if (id == null || _context.Material == null)
             {
                 return NotFound();
             }
 
-            var profesor = await _context.Profesor
-                .FirstOrDefaultAsync(m => m.Legajo == id);
-            if (profesor == null)
+            var material = await _context.Material
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (material == null)
             {
                 return NotFound();
             }
 
-            return View(profesor);
+            return View(material);
         }
 
-        // POST: Profesors/Delete/5
+        // POST: Materiales/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Profesor == null)
+            if (_context.Material == null)
             {
-                return Problem("Entity set 'PNT_PROYECTOContext.Profesor'  is null.");
+                return Problem("Entity set 'PNT_PROYECTOContext.Material'  is null.");
             }
-            var profesor = await _context.Profesor.FindAsync(id);
-            if (profesor != null)
+            var material = await _context.Material.FindAsync(id);
+            if (material != null)
             {
-                _context.Profesor.Remove(profesor);
+                _context.Material.Remove(material);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProfesorExists(int id)
+        private bool MaterialExists(int id)
         {
-          return _context.Profesor.Any(e => e.Legajo == id);
+          return _context.Material.Any(e => e.Id == id);
         }
     }
 }

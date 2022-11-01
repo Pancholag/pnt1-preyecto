@@ -9,12 +9,13 @@ namespace PNT_PROYECTO.Models
         public string? Link { get; set; }
         public string? Texto { get; set; }
         public string? Titulo { get; set; }
-        
-        //public List<String> Imagenes { get; set; }
+        public ICollection<Examen>? Examenes { get; set; }
+        public Profesor? Profe { get; set; }
+
         //necesita key??
         //public Material()
         //{
-        //    Imagenes = new List<string>();
+        //    Imagenes = new IOCollection<string>();
         //}
     }
 }
