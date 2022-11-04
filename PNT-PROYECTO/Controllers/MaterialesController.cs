@@ -12,28 +12,29 @@ namespace PNT_PROYECTO.Controllers
 {
     public class MaterialesController : Controller
     {
-        private readonly PNT_PROYECTOContext _context;
+        private readonly PNT_PROYECTOContext _stockContext;
 
         public MaterialesController(PNT_PROYECTOContext context)
         {
-            _context = context;
+            _stockContext = context;
         }
 
         // GET: Materiales
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Material.ToListAsync());
+            var stockContext = _stockContext.Material.Include(j => j.Profe);
+            return View(await stockContext.ToListAsync());
         }
 
         // GET: Materiales/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Material == null)
+            if (id == null || _stockContext.Material == null)
             {
                 return NotFound();
             }
 
-            var material = await _context.Material
+            var material = await _stockContext.Material
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (material == null)
             {
@@ -46,7 +47,7 @@ namespace PNT_PROYECTO.Controllers
         // GET: Materiales/Create
         public IActionResult Create()
         {
-            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido");
+            ViewData["Legajo"] = new SelectList(_stockContext.Profesor, "Legajo", "NombreApellido");
             return View();
         }
 
@@ -55,31 +56,32 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Link,Texto,Titulo")] Material material)
+        public async Task<IActionResult> Create(Material material)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(material);
-                await _context.SaveChangesAsync();
+                _stockContext.Add(material);
+                await _stockContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Legajo"] = new SelectList(_stockContext.Profesor, "Legajo", "NombreApellido", material.ProfeId);
             return View(material);
         }
 
         // GET: Materiales/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Material == null)
+            if (id == null || _stockContext.Material == null)
             {
                 return NotFound();
             }
 
-            var material = await _context.Material.FindAsync(id);
+            var material = await _stockContext.Material.FindAsync(id);
             if (material == null)
             {
                 return NotFound();
             }
-            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", material.Legajo);
+            ViewData["Legajo"] = new SelectList(_stockContext.Profesor, "Legajo", "NombreApellido", material.ProfeId);
             return View(material);
         }
 
@@ -99,8 +101,8 @@ namespace PNT_PROYECTO.Controllers
             {
                 try
                 {
-                    _context.Update(material);
-                    await _context.SaveChangesAsync();
+                    _stockContext.Update(material);
+                    await _stockContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,18 +117,19 @@ namespace PNT_PROYECTO.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Legajo"] = new SelectList(_stockContext.Profesor, "Legajo", "Legajo", material.ProfeId);
             return View(material);
         }
 
         // GET: Materiales/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Material == null)
+            if (id == null || _stockContext.Material == null)
             {
                 return NotFound();
             }
 
-            var material = await _context.Material
+            var material = await _stockContext.Material
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (material == null)
             {
@@ -141,23 +144,23 @@ namespace PNT_PROYECTO.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Material == null)
+            if (_stockContext.Material == null)
             {
                 return Problem("Entity set 'PNT_PROYECTOContext.Material'  is null.");
             }
-            var material = await _context.Material.FindAsync(id);
+            var material = await _stockContext.Material.FindAsync(id);
             if (material != null)
             {
-                _context.Material.Remove(material);
+                _stockContext.Material.Remove(material);
             }
             
-            await _context.SaveChangesAsync();
+            await _stockContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MaterialExists(int id)
         {
-          return _context.Material.Any(e => e.Id == id);
+          return _stockContext.Material.Any(e => e.Id == id);
         }
     }
 }

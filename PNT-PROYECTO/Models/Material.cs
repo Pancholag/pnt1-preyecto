@@ -11,7 +11,7 @@ namespace PNT_PROYECTO.Models
         public string? Titulo { get; set; }
         public ICollection<Examen>? Examenes { get; set; }
         public Profesor? Profe { get; set; }
-        public int Legajo { get; set; }
+        public int ProfeId { get; set; }
 
         //necesita key??
         //public Material()

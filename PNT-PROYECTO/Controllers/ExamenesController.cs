@@ -22,7 +22,8 @@ namespace PNT_PROYECTO.Controllers
         // GET: Examenes
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Examen.ToListAsync());
+            var stockContext = _context.Examen.Include(j => j.Profe);
+            return View(await stockContext.ToListAsync());
         }
 
         // GET: Examenes/Details/5
@@ -80,7 +81,7 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", examen.Legajo);
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", examen.ProfeId);
 
             return View(examen);
         }

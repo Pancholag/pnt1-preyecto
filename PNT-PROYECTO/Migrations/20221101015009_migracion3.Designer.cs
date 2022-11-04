@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PNT_PROYECTO.Data;
 
@@ -10,9 +11,10 @@ using PNT_PROYECTO.Data;
 namespace PNT_PROYECTO.Migrations
 {
     [DbContext(typeof(PNT_PROYECTOContext))]
-    partial class PNT_PROYECTOContextModelSnapshot : ModelSnapshot
+    [Migration("20221101015009_migracion3")]
+    partial class migracion3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -44,7 +46,10 @@ namespace PNT_PROYECTO.Migrations
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ProfeId")
+                    b.Property<int>("Legajo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProfeLegajo")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Titulo")
@@ -54,7 +59,7 @@ namespace PNT_PROYECTO.Migrations
 
                     b.HasIndex("AlumnoLegajo");
 
-                    b.HasIndex("ProfeId");
+                    b.HasIndex("ProfeLegajo");
 
                     b.ToTable("Examen");
                 });
@@ -153,9 +158,7 @@ namespace PNT_PROYECTO.Migrations
 
                     b.HasOne("PNT_PROYECTO.Models.Profesor", "Profe")
                         .WithMany("Examenes")
-                        .HasForeignKey("ProfeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProfeLegajo");
 
                     b.Navigation("Profe");
                 });
