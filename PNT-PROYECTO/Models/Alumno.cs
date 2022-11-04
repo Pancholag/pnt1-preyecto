@@ -3,12 +3,9 @@
     public class Alumno : Persona
     {
 
-        public List<Examen> ExamenesList { get; set; }
+        public ICollection<Examen>? ExamenesList { get; set; }
 
 
-        public Alumno()
-        {
-            ExamenesList = new List<Examen>();
-        }
+       
     }
 }

@@ -56,7 +56,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Fecha,Titulo")] Examen examen)
+        public async Task<IActionResult> Create(Examen examen)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +64,7 @@ namespace PNT_PROYECTO.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", examen.ProfeId);
             return View(examen);
         }
 
@@ -91,7 +92,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Fecha,Titulo")] Examen examen)
+        public async Task<IActionResult> Edit(int id, Examen examen)
         {
             if (id != examen.Id)
             {
@@ -118,6 +119,7 @@ namespace PNT_PROYECTO.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "Legajo", examen.ProfeId);
             return View(examen);
         }
 

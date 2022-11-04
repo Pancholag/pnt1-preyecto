@@ -90,7 +90,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Link,Texto,Titulo")] Material material)
+        public async Task<IActionResult> Edit(int id, Material material)
         {
             if (id != material.Id)
             {

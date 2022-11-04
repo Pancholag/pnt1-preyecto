@@ -6,7 +6,10 @@ namespace PNT_PROYECTO.Models
     {
         [Key]
         public int Legajo { get; set; }
+        [Required]
         public string? NombreApellido { get; set; }
+        [Required]
+        [EmailAddress]
         public string? Mail { get; set; }
 
     }
