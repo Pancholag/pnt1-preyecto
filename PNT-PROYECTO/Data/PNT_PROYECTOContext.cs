@@ -23,5 +23,7 @@ namespace PNT_PROYECTO.Data
         public DbSet<PNT_PROYECTO.Models.Profesor> Profesor { get; set; }
 
         public DbSet<PNT_PROYECTO.Models.Material> Material { get; set; }
+
+        //public DbSet<PNT_PROYECTO.Models.ExamenMaterial> ExamenMaterial { get; set; }
     }
 }

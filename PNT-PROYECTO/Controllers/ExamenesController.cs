@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PNT_PROYECTO.Data;
 using PNT_PROYECTO.Models;
+using SQLitePCL;
 
 namespace PNT_PROYECTO.Controllers
 {
@@ -40,6 +41,15 @@ namespace PNT_PROYECTO.Controllers
             {
                 return NotFound();
             }
+            examen.Profe = await _context.Profesor.FirstOrDefaultAsync(p => examen.ProfeId == p.Legajo);
+
+            /*
+             necesitamos que "examen.Materiales" tenga un valor, pero en la bd tenemos una tabla intermedia
+             */
+
+            //var materiales = _context.ExamenMaterial.Where(p => examen.Id == p.ExamenId).ToList();
+
+            examen.Materiales = null;
 
             return View(examen);
         }
@@ -48,7 +58,9 @@ namespace PNT_PROYECTO.Controllers
         public IActionResult Create()
         {
             ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido");
-            return View();
+            ExamenViewModel modelo = new ExamenViewModel(); 
+            modelo.Materiales = new SelectList(_context.Material, "Id", "Titulo");
+            return View(modelo);
         }
 
         // POST: Examenes/Create
@@ -56,16 +68,30 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Examen examen)
+        public async Task<IActionResult> Create(ExamenViewModel examenVM)
         {
+            Examen examen = new Examen();
             if (ModelState.IsValid)
             {
+                
+                examen.Fecha = examenVM.Fecha;
+                examen.Titulo = examenVM.Titulo;
+                examen.ProfeId = examenVM.ProfeId;
+                
+                ICollection<Material> matAux = new List<Material>();
+
+                foreach (Int32 materialId in examenVM.MaterialesSeleccionados) {
+                    matAux.Add(await _context.Material.FindAsync(materialId));
+                }
+                
+                examen.Materiales = matAux;
+
                 _context.Add(examen);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", examen.ProfeId);
-            return View(examen);
+            return View(examenVM);
         }
 
         // GET: Examenes/Edit/5

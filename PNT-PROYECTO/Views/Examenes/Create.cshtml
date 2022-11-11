@@ -1,4 +1,4 @@
-﻿@model PNT_PROYECTO.Models.Examen
+﻿@model PNT_PROYECTO.Models.ExamenViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -26,6 +26,21 @@
                 <label asp-for="ProfeId" class="control-label">Nombre Docente</label>
                 <select asp-for="ProfeId" class="form-control" asp-items="ViewBag.Legajo"></select>
             </div>
+
+            
+            <div class="form-group">
+                <label asp-for="Materiales" class="control-label"></label>
+                <select asp-for="MaterialesSeleccionados" class="form-control"
+                        asp-items="Model.Materiales"></select>
+                <span asp-validation-for="MaterialesSeleccionados" class="text-danger"></span>
+            </div>
+            
+            
+            <!---<div class="form-group">
+                <label asp-for="MaterialesSeleccionados" class="control-label">Materiales relacionados</label>
+                @*<select multiple asp-for="Materiales" class="form-control" asp-items="ViewBag.MaterialesId"></select>*@
+                <select multiple asp-for="MaterialesSeleccionados" class="form-control" asp-items="ViewBag.MaterialesId"></select>
+            </div>--->
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

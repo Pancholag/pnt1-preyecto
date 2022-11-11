@@ -40,7 +40,7 @@ namespace PNT_PROYECTO.Controllers
             {
                 return NotFound();
             }
-
+            material.Profe = await _stockContext.Profesor.FirstOrDefaultAsync(p => material.ProfeId == p.Legajo);
             return View(material);
         }
 
