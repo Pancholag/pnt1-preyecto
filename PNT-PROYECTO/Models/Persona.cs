@@ -11,6 +11,8 @@ namespace PNT_PROYECTO.Models
         [Required]
         [EmailAddress]
         public string? Mail { get; set; }
+        [Required]
+        public string? Password { get; set; }
 
     }
 }

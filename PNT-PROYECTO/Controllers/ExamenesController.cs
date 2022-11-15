@@ -36,21 +36,15 @@ namespace PNT_PROYECTO.Controllers
             }
 
             var examen = await _context.Examen
+                .Include(j => j.Materiales)
+                .Include(j => j.Profe)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (examen == null)
             {
                 return NotFound();
             }
-            examen.Profe = await _context.Profesor.FirstOrDefaultAsync(p => examen.ProfeId == p.Legajo);
 
-            /*
-             necesitamos que "examen.Materiales" tenga un valor, pero en la bd tenemos una tabla intermedia
-             */
-
-            //var materiales = _context.ExamenMaterial.Where(p => examen.Id == p.ExamenId).ToList();
-
-            examen.Materiales = null;
-
+            
             return View(examen);
         }
 

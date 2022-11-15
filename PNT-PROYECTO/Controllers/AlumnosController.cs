@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +22,10 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Alumnos
+        [Authorize(Roles = "ADMIN,ADJUNTO,ATPJTP")]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Alumno.ToListAsync());
+            return View(await _context.Alumno.ToListAsync());
         }
 
         // GET: Alumnos/Details/5
@@ -40,30 +43,35 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            return View(alumno);
+            if (User.FindFirstValue(ClaimTypes.Name).Equals(alumno.Mail) || !User.FindFirstValue(ClaimTypes.Role).Equals("ALUMNO"))
+            {
+                return View(alumno);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Alumnos/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Alumnos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Legajo,NombreApellido,Mail")] Alumno alumno)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(alumno);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(alumno);
-        }
+        //// POST: Alumnos/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("Legajo,NombreApellido,Mail")] Alumno alumno)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(alumno);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(alumno);
+        //}
 
         // GET: Alumnos/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -78,7 +86,13 @@ namespace PNT_PROYECTO.Controllers
             {
                 return NotFound();
             }
-            return View(alumno);
+
+            if (User.FindFirstValue(ClaimTypes.Name).Equals(alumno.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
+            {
+                return View(alumno);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         // POST: Alumnos/Edit/5
@@ -93,30 +107,35 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (User.FindFirstValue(ClaimTypes.Name).Equals(alumno.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(alumno);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AlumnoExists(alumno.Legajo))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(alumno);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!AlumnoExists(alumno.Legajo))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction("Index", "Home");
                 }
-                return RedirectToAction(nameof(Index));
+                return View(alumno);
             }
-            return View(alumno);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Alumnos/Delete/5
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Alumno == null)
@@ -137,6 +156,7 @@ namespace PNT_PROYECTO.Controllers
         // POST: Alumnos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Alumno == null)
@@ -148,14 +168,14 @@ namespace PNT_PROYECTO.Controllers
             {
                 _context.Alumno.Remove(alumno);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool AlumnoExists(int id)
         {
-          return _context.Alumno.Any(e => e.Legajo == id);
+            return _context.Alumno.Any(e => e.Legajo == id);
         }
     }
 }

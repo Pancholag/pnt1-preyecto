@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +24,7 @@ namespace PNT_PROYECTO.Controllers
         // GET: Profesores
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Profesor.ToListAsync());
+            return View(await _context.Profesor.ToListAsync());
         }
 
         // GET: Profesores/Details/5
@@ -43,27 +45,27 @@ namespace PNT_PROYECTO.Controllers
             return View(profesor);
         }
 
-        // GET: Profesores/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //// GET: Profesores/Create
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        // POST: Profesores/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FechaInicio,Descripcion,Tipo,Legajo,NombreApellido,Mail")] Profesor profesor)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(profesor);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(profesor);
-        }
+        //// POST: Profesores/Create
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("FechaInicio,Descripcion,Tipo,Legajo,NombreApellido,Mail")] Profesor profesor)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(profesor);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(profesor);
+        //}
 
         // GET: Profesores/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -78,7 +80,14 @@ namespace PNT_PROYECTO.Controllers
             {
                 return NotFound();
             }
-            return View(profesor);
+
+            if (User.FindFirstValue(ClaimTypes.Name).Equals(profesor.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
+            {
+                return View(profesor);
+            }
+
+            return RedirectToAction("Index", "Home");
+
         }
 
         // POST: Profesores/Edit/5
@@ -93,30 +102,36 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (User.FindFirstValue(ClaimTypes.Name).Equals(profesor.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
             {
-                try
+                if (ModelState.IsValid)
                 {
-                    _context.Update(profesor);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProfesorExists(profesor.Legajo))
+                    try
                     {
-                        return NotFound();
+                        _context.Update(profesor);
+                        await _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        throw;
+                        if (!ProfesorExists(profesor.Legajo))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
+                return View(profesor);
             }
-            return View(profesor);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         // GET: Profesores/Delete/5
+        [Authorize(Roles ="ADMIN")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Profesor == null)
@@ -137,6 +152,7 @@ namespace PNT_PROYECTO.Controllers
         // POST: Profesores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Profesor == null)
@@ -148,14 +164,14 @@ namespace PNT_PROYECTO.Controllers
             {
                 _context.Profesor.Remove(profesor);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProfesorExists(int id)
         {
-          return _context.Profesor.Any(e => e.Legajo == id);
+            return _context.Profesor.Any(e => e.Legajo == id);
         }
     }
 }
