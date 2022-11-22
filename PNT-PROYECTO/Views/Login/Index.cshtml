@@ -4,31 +4,50 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>login</h1>
-
-<h4>bienvenido</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Index">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Mail" class="control-label"></label>
-                <input asp-for="Mail" class="form-control" />
-                <span asp-validation-for="Mail" class="text-danger"></span>
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
             </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+                <form>
+                    <!-- Email input -->
+                    <div class="form-label-group mb-4">
+                        <input asp-for="Mail" type="email" id="inputEmail" class="form-control form-control-lg" placeholder="Correo electrónico" />
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                    <!-- Password input -->               
+                    <div class="form-label-group mb-3">
+                        <input asp-for="Password" type="password" id="Password" class="form-control form-control-lg" placeholder="Contraseña" />                        
+                        <span asp-validation-for="Mail" class="text-danger"></span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <!-- Checkbox -->
+                        <div class="form-check mb-0">
+                            <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                            <label class="form-check-label" for="form2Example3">
+                                Recuérdame
+                            </label>
+                        </div>
+                        @*<a href="#!" class="text-body">¿Olvidaste tu contraseña?</a>*@
+                    </div>
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="button" class="btn btn-primary btn-lg"
+                                style="padding-left: 2.5rem; padding-right: 2.5rem;">
+                            Ingresar
+                        </button>
+                        <p class="small fw-bold mt-2 pt-1 mb-0">
+                            No estas registrado? <a href="#!"
+                                                      class="link-danger">Register</a>
+                        </p>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Ingresar" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
-
+</section>
 
 
 @section Scripts {
