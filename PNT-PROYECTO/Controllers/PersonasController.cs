@@ -12,13 +12,14 @@ namespace PNT_PROYECTO.Controllers
 {
     public class PersonasController : Controller
     {
+        /*
         private readonly PNT_PROYECTOContext _context;
 
         public PersonasController(PNT_PROYECTOContext context)
         {
             _context = context;
         }
-
+        
         // GET: Personas
         public async Task<IActionResult> Index()
         {
@@ -157,5 +158,6 @@ namespace PNT_PROYECTO.Controllers
         {
           return _context.Persona.Any(e => e.Legajo == id);
         }
+        */
     }
 }

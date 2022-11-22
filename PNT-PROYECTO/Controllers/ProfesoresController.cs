@@ -68,6 +68,7 @@ namespace PNT_PROYECTO.Controllers
         //}
 
         // GET: Profesores/Edit/5
+        [Authorize(Roles = "ADMIN,ADJUNTO,ATPJTP")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Profesor == null)
@@ -81,7 +82,7 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (User.FindFirstValue(ClaimTypes.Name).Equals(profesor.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
+            if (User.FindFirstValue(ClaimTypes.GivenName).Equals(profesor.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
             {
                 return View(profesor);
             }
@@ -95,6 +96,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO,ATPJTP")]
         public async Task<IActionResult> Edit(int id, [Bind("FechaInicio,Descripcion,Tipo,Legajo,NombreApellido,Mail")] Profesor profesor)
         {
             if (id != profesor.Legajo)
@@ -102,7 +104,7 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (User.FindFirstValue(ClaimTypes.Name).Equals(profesor.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
+            if (User.FindFirstValue(ClaimTypes.GivenName).Equals(profesor.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
             {
                 if (ModelState.IsValid)
                 {

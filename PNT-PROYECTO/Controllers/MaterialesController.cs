@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -45,6 +46,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Materiales/Create
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public IActionResult Create()
         {
             ViewData["Legajo"] = new SelectList(_stockContext.Profesor, "Legajo", "NombreApellido");
@@ -56,6 +58,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Create(Material material)
         {
             if (ModelState.IsValid)
@@ -69,6 +72,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Materiales/Edit/5
+        [Authorize(Roles = "ADMIN,ADJUNTO,ATPJTP")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _stockContext.Material == null)
@@ -90,6 +94,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO,ATPJTP")]
         public async Task<IActionResult> Edit(int id, Material material)
         {
             if (id != material.Id)
@@ -122,6 +127,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Materiales/Delete/5
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _stockContext.Material == null)
@@ -142,6 +148,7 @@ namespace PNT_PROYECTO.Controllers
         // POST: Materiales/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_stockContext.Material == null)

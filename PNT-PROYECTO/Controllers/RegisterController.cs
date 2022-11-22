@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PNT_PROYECTO.Data;
 using PNT_PROYECTO.Models;
@@ -36,7 +37,7 @@ namespace PNT_PROYECTO.Controllers
 
                     _context.Add(profesor);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index","Login");
                 }
                 else {
                     ViewBag.mensajeError = "Mail ya registrado";
@@ -70,7 +71,7 @@ namespace PNT_PROYECTO.Controllers
 
                     _context.Add(alumno);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Login");
                 }
                 
                 else

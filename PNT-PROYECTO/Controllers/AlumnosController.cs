@@ -29,6 +29,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Alumnos/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Alumno == null)
@@ -43,7 +44,7 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (User.FindFirstValue(ClaimTypes.Name).Equals(alumno.Mail) || !User.FindFirstValue(ClaimTypes.Role).Equals("ALUMNO"))
+            if (User.FindFirstValue(ClaimTypes.GivenName).Equals(alumno.Mail) || !User.FindFirstValue(ClaimTypes.Role).Equals("ALUMNO"))
             {
                 return View(alumno);
             }
@@ -74,6 +75,7 @@ namespace PNT_PROYECTO.Controllers
         //}
 
         // GET: Alumnos/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Alumno == null)
@@ -87,7 +89,7 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (User.FindFirstValue(ClaimTypes.Name).Equals(alumno.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
+            if (User.FindFirstValue(ClaimTypes.GivenName).Equals(alumno.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
             {
                 return View(alumno);
             }
@@ -100,6 +102,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Legajo,NombreApellido,Mail")] Alumno alumno)
         {
             if (id != alumno.Legajo)
@@ -107,7 +110,7 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            if (User.FindFirstValue(ClaimTypes.Name).Equals(alumno.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
+            if (User.FindFirstValue(ClaimTypes.GivenName).Equals(alumno.Mail) || User.FindFirstValue(ClaimTypes.Role).Equals("ADMIN"))
             {
                 if (ModelState.IsValid)
                 {
@@ -135,7 +138,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Alumnos/Delete/5
-        [Authorize(Roles = "ADMIN,ADJUNTO")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Alumno == null)
@@ -156,7 +159,7 @@ namespace PNT_PROYECTO.Controllers
         // POST: Alumnos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "ADMIN,ADJUNTO")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Alumno == null)

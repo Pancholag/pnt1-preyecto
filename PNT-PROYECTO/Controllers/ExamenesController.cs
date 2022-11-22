@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Examenes
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var stockContext = _context.Examen.Include(j => j.Profe);
@@ -28,6 +30,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Examenes/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Examen == null)
@@ -49,6 +52,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Examenes/Create
+        [Authorize(Roles ="ADMIN,ADJUNTO")]
         public IActionResult Create()
         {
             ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido");
@@ -62,6 +66,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Create(ExamenViewModel examenVM)
         {
             Examen examen = new Examen();
@@ -89,6 +94,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Examenes/Edit/5
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Examen == null)
@@ -112,6 +118,7 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Edit(int id, Examen examen)
         {
             if (id != examen.Id)
@@ -144,6 +151,7 @@ namespace PNT_PROYECTO.Controllers
         }
 
         // GET: Examenes/Delete/5
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Examen == null)
@@ -164,6 +172,7 @@ namespace PNT_PROYECTO.Controllers
         // POST: Examenes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMIN,ADJUNTO")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Examen == null)

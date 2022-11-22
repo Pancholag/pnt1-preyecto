@@ -6,9 +6,11 @@
 
 <h1>Index</h1>
 
+@*boton que fue reemplazado por el registrar
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+*@
 <table class="table">
     <thead>
         <tr>
@@ -22,20 +24,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NombreApellido)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mail)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Legajo">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Legajo">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Legajo">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreApellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mail)
+                </td>
+                <td>
+                    @if (User.IsInRole("ADMIN"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Legajo">Edit</a>
+                        <span>|</span>
+                    }
+
+                    <a asp-action="Details" asp-route-id="@item.Legajo">Details</a>
+                    @if (User.IsInRole("ADMIN"))
+                    {
+                        <span>|</span>
+                        <a asp-action="Delete" asp-route-id="@item.Legajo">Delete</a>
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
