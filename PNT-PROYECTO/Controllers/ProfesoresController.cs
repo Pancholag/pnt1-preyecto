@@ -97,7 +97,7 @@ namespace PNT_PROYECTO.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "ADMIN,ADJUNTO,ATPJTP")]
-        public async Task<IActionResult> Edit(int id, [Bind("FechaInicio,Descripcion,Tipo,Legajo,NombreApellido,Mail")] Profesor profesor)
+        public async Task<IActionResult> Edit(int id, Profesor profesor)
         {
             if (id != profesor.Legajo)
             {
@@ -126,7 +126,7 @@ namespace PNT_PROYECTO.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                return View(profesor);
+                return RedirectToAction("Index", "Home");
             }
             else
                 return RedirectToAction("Index", "Home");
