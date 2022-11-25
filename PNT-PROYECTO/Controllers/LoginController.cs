@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PNT_PROYECTO.Data;
 using PNT_PROYECTO.Models;
 using System.Security.Claims;
@@ -11,9 +13,15 @@ namespace Stock.Controllers
     {
         private readonly PNT_PROYECTOContext _context;
 
+        private static int cantIngresosProfesor = 0;
+        private static int cantIngresosAlumno = 0;
+
+
+
         public LoginController(PNT_PROYECTOContext context)
         {
             _context = context;
+
         }
 
         public IActionResult Index()
@@ -30,9 +38,10 @@ namespace Stock.Controllers
 
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(LoginViewModel usuario)
+        public async Task<IActionResult> IndexAsync(LoginViewModel usuario)
         {
 
             var listaPersonas = _context.Persona.Where(o => o.Mail == usuario.Mail &&
@@ -41,6 +50,13 @@ namespace Stock.Controllers
             if (listaPersonas.Count > 0) 
             {
                 Persona p = listaPersonas[0];
+
+                Ingreso ingreso = new Ingreso();
+                ingreso.horaIngreso = DateTime.Now;
+                ingreso.usuario = p;
+
+                _context.Add(ingreso);
+                await _context.SaveChangesAsync();
 
 
                 ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -58,10 +74,11 @@ namespace Stock.Controllers
                 if (p is Profesor)
                 {
                     Profesor profe = (Profesor)p;
-
-                    switch (profe.Tipo) 
+                    cantIngresosProfesor++;
+                    switch (profe.Tipo)
                     {
-                        case Profesor.Rol.TITULAR: {
+                        case Profesor.Rol.TITULAR:
+                            {
                                 identity.AddClaim(new Claim(ClaimTypes.Role, "ADMIN"));
                                 break;
                             }
@@ -70,14 +87,17 @@ namespace Stock.Controllers
                                 identity.AddClaim(new Claim(ClaimTypes.Role, "ADJUNTO"));
                                 break;
                             }
-                        default: {
+                        default:
+                            {
                                 identity.AddClaim(new Claim(ClaimTypes.Role, "ATPJTP"));
                                 break;
                             }
                     }
                 }
-                else
+                else {
                     identity.AddClaim(new Claim(ClaimTypes.Role, "ALUMNO"));
+                    cantIngresosAlumno++;
+                }
 
                 // Lo utilizaremos para acceder al Id del usuario que se encuentra en el sistema.
                 identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, p.Legajo.ToString()));
@@ -101,10 +121,19 @@ namespace Stock.Controllers
             }
         }
 
-        public IActionResult Logout()
+        [Authorize(Roles = "ADMIN")]
+        public async Task<IActionResult> Estadistica() {
+            ViewBag.cantIngresosAlumno = cantIngresosAlumno;
+            ViewBag.cantIngresosProfesor = cantIngresosProfesor;
+            var context = _context.Ingreso.Include(j => j.usuario);
+            return View(await context.ToListAsync());
+        }
+
+
+        public async Task<IActionResult> LogoutAsync()
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme).Wait();
-            return View("Index");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index");
         }
     }
 }

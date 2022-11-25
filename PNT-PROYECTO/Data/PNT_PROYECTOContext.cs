@@ -24,5 +24,7 @@ namespace PNT_PROYECTO.Data
 
         public DbSet<PNT_PROYECTO.Models.Material> Material { get; set; }
 
+        public DbSet<PNT_PROYECTO.Models.Ingreso> Ingreso { get; set; }
+
     }
 }

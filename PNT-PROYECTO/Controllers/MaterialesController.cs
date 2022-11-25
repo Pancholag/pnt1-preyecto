@@ -41,6 +41,25 @@ namespace PNT_PROYECTO.Controllers
             {
                 return NotFound();
             }
+           
+            try
+            {
+                material.VecesVisto++;
+                _stockContext.Update(material);
+                await _stockContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MaterialExists(material.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
             material.Profe = await _stockContext.Profesor.FirstOrDefaultAsync(p => material.ProfeId == p.Legajo);
             return View(material);
         }
@@ -63,6 +82,8 @@ namespace PNT_PROYECTO.Controllers
         {
             if (ModelState.IsValid)
             {
+                material.VecesDescargado = 0;
+                material.VecesVisto = 0;
                 _stockContext.Add(material);
                 await _stockContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

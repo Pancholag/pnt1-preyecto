@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PNT_PROYECTO.Data;
 
@@ -10,9 +11,10 @@ using PNT_PROYECTO.Data;
 namespace PNT_PROYECTO.Migrations
 {
     [DbContext(typeof(PNT_PROYECTOContext))]
-    partial class PNT_PROYECTOContextModelSnapshot : ModelSnapshot
+    [Migration("20221125001035_materialesContadores")]
+    partial class materialesContadores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -53,25 +55,6 @@ namespace PNT_PROYECTO.Migrations
                     b.HasIndex("ProfeId");
 
                     b.ToTable("Examen");
-                });
-
-            modelBuilder.Entity("PNT_PROYECTO.Models.Ingreso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("horaIngreso")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("usuarioLegajo")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("usuarioLegajo");
-
-                    b.ToTable("Ingreso");
                 });
 
             modelBuilder.Entity("PNT_PROYECTO.Models.Material", b =>
@@ -183,17 +166,6 @@ namespace PNT_PROYECTO.Migrations
                         .IsRequired();
 
                     b.Navigation("Profe");
-                });
-
-            modelBuilder.Entity("PNT_PROYECTO.Models.Ingreso", b =>
-                {
-                    b.HasOne("PNT_PROYECTO.Models.Persona", "usuario")
-                        .WithMany()
-                        .HasForeignKey("usuarioLegajo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("usuario");
                 });
 
             modelBuilder.Entity("PNT_PROYECTO.Models.Material", b =>

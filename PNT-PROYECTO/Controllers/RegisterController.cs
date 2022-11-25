@@ -15,6 +15,12 @@ namespace PNT_PROYECTO.Controllers
             _context = context;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
         // GET: Profesores/Create
         public IActionResult RegistrarProfesor()
         {

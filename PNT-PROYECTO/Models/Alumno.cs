@@ -2,10 +2,5 @@
 {
     public class Alumno : Persona
     {
-
-        public ICollection<Examen>? ExamenesList { get; set; }
-
-
-       
     }
 }

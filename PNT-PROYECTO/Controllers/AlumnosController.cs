@@ -103,7 +103,7 @@ namespace PNT_PROYECTO.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Edit(int id, [Bind("Legajo,NombreApellido,Mail")] Alumno alumno)
+        public async Task<IActionResult> Edit(int id, Alumno alumno)
         {
             if (id != alumno.Legajo)
             {

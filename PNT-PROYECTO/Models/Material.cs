@@ -17,7 +17,8 @@ namespace PNT_PROYECTO.Models
         public Profesor? Profe { get; set; }
         [Required]
         public int ProfeId { get; set; }
-
+        public int VecesVisto { get; set; }
+        public int VecesDescargado { get; set; }
         //necesita key??
         //public Material()
         //{

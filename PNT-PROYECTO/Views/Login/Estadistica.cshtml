@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PNT_PROYECTO.Models.Ingreso>
+
+@{
+    ViewData["Title"] = "Estadisticas de ingreso";
+}
+
+<h1>Cantidad de ingresos en el dia</h1>
+
+<p>de profesores: @ViewBag.cantIngresosProfesor</p>
+<p>de Alumnos: @ViewBag.cantIngresosAlumno</p>
+<p>totales: @(ViewBag.cantIngresosProfesor + ViewBag.cantIngresosAlumno)</p>
+
+<h1>Historial de ingresos a la pagina</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.horaIngreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuario.NombreApellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.usuario.Legajo)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.horaIngreso)
+                </td>
+                <td class="hola">
+                    @Html.DisplayFor(modelItem => item.usuario.NombreApellido)
+                </td>
+                <td class="hola">
+                    @Html.DisplayFor(modelItem => item.usuario.Legajo)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -23,3 +23,10 @@
     }
     <a asp-action="Index">Back to List</a>
 </div>
+@if (User.IsInRole("ADMIN"))
+{
+    <div>
+        <p>veces visto: @Html.DisplayFor(model => model.VecesVisto)</p>
+        <p>veces descargado: @Html.DisplayFor(model => model.VecesDescargado)</p>
+    </div>
+}
