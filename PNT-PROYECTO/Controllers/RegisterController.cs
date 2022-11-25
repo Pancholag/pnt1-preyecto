@@ -32,16 +32,15 @@ namespace PNT_PROYECTO.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrarProfesor(Profesor profesor)
+        public async Task<IActionResult> RegistrarProfesor(ProfeARegistrar p)
         {
             if (ModelState.IsValid)
             {
 
-                var listaPersonas = _context.Persona.Where(o => o.Mail == profesor.Mail).ToList();
+                var listaPersonas = _context.Persona.Where(o => o.Mail == p.Mail).ToList();
                 if (listaPersonas.Count == 0)
                 {
-
-                    _context.Add(profesor);
+                    _context.Add(p);
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Index","Login");
                 }
@@ -50,18 +49,18 @@ namespace PNT_PROYECTO.Controllers
                 }
                     
             }
-            return View(profesor);
+            return View(p);
         }
 
 
 
-        // GET: Profesores/Create
+        // GET: Alumno/Create
         public IActionResult RegistrarAlumno()
         {
             return View();
         }
 
-        // POST: Profesores/Create
+        // POST: Alumno/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]

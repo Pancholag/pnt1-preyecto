@@ -1,8 +1,11 @@
 ﻿@model IEnumerable<PNT_PROYECTO.Models.Ingreso>
 
+
 @{
     ViewData["Title"] = "Estadisticas de ingreso";
 }
+
+<a class="text-dark"  asp-controller="ProfesARegistrar" asp-action="Index">Notificaciones</a>
 
 <h1>Cantidad de ingresos</h1>
 
@@ -49,3 +52,6 @@
         }
     </tbody>
 </table>
+
+
+

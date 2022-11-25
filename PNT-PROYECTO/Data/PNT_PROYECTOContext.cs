@@ -26,5 +26,7 @@ namespace PNT_PROYECTO.Data
 
         public DbSet<PNT_PROYECTO.Models.Ingreso> Ingreso { get; set; }
 
+        public DbSet<PNT_PROYECTO.Models.ProfeARegistrar> profeARegistrar { get; set; }
+
     }
 }
