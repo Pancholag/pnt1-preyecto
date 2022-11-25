@@ -4,7 +4,7 @@
     ViewData["Title"] = "Estadisticas de ingreso";
 }
 
-<h1>Cantidad de ingresos en el dia</h1>
+<h1>Cantidad de ingresos</h1>
 
 <p>de profesores: @ViewBag.cantIngresosProfesor</p>
 <p>de Alumnos: @ViewBag.cantIngresosAlumno</p>
@@ -33,7 +33,14 @@
                     @Html.DisplayFor(modelItem => item.horaIngreso)
                 </td>
                 <td class="hola">
-                    @Html.DisplayFor(modelItem => item.usuario.NombreApellido)
+                    @if (item.usuario is Profesor)
+                    {
+                        <a asp-controller="Profesores" asp-action="Details" asp-route-id="@item.usuario.Legajo">@Html.DisplayFor(modelItem => item.usuario.NombreApellido)</a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Alumnos" asp-action="Details" asp-route-id="@item.usuario.Legajo">@Html.DisplayFor(modelItem => item.usuario.NombreApellido)</a>
+                    }
                 </td>
                 <td class="hola">
                     @Html.DisplayFor(modelItem => item.usuario.Legajo)

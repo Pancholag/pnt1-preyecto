@@ -13,11 +13,6 @@ namespace Stock.Controllers
     {
         private readonly PNT_PROYECTOContext _context;
 
-        private static int cantIngresosProfesor = 0;
-        private static int cantIngresosAlumno = 0;
-
-
-
         public LoginController(PNT_PROYECTOContext context)
         {
             _context = context;
@@ -74,7 +69,7 @@ namespace Stock.Controllers
                 if (p is Profesor)
                 {
                     Profesor profe = (Profesor)p;
-                    cantIngresosProfesor++;
+                    
                     switch (profe.Tipo)
                     {
                         case Profesor.Rol.TITULAR:
@@ -96,7 +91,6 @@ namespace Stock.Controllers
                 }
                 else {
                     identity.AddClaim(new Claim(ClaimTypes.Role, "ALUMNO"));
-                    cantIngresosAlumno++;
                 }
 
                 // Lo utilizaremos para acceder al Id del usuario que se encuentra en el sistema.
@@ -123,10 +117,22 @@ namespace Stock.Controllers
 
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> Estadistica() {
+            
+            var ingresos = await _context.Ingreso.Include(j => j.usuario).ToListAsync();
+
+            var cantIngresosAlumno = 0;
+            var cantIngresosProfesor = 0;
+
+            foreach (var i in ingresos) {
+                if (i.usuario is Profesor)
+                    cantIngresosProfesor++;
+                else
+                    cantIngresosAlumno++;
+            }
+
             ViewBag.cantIngresosAlumno = cantIngresosAlumno;
             ViewBag.cantIngresosProfesor = cantIngresosProfesor;
-            var context = _context.Ingreso.Include(j => j.usuario);
-            return View(await context.ToListAsync());
+            return View(ingresos);
         }
 
 
