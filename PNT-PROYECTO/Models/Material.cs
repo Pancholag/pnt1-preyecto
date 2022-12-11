@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static System.Net.WebRequestMethods;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PNT_PROYECTO.Models
 {
@@ -7,8 +7,15 @@ namespace PNT_PROYECTO.Models
     {
         [Key]
         public int Id { get; set; }
-        [Url]
-        public string? Link { get; set; }
+
+        //solo ayuda en el create
+        [Required]
+        [NotMapped]
+        public IFormFile? Archivo { get; set; }
+
+        public string? FileName { get; set; }
+        public string? ContentType { get; set; }
+        public byte[]? Data { get; set; }
         [Required]
         public string? Texto { get; set; }
         [Required]

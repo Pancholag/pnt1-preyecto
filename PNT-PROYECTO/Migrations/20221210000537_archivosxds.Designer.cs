@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PNT_PROYECTO.Data;
 
@@ -10,9 +11,10 @@ using PNT_PROYECTO.Data;
 namespace PNT_PROYECTO.Migrations
 {
     [DbContext(typeof(PNT_PROYECTOContext))]
-    partial class PNT_PROYECTOContextModelSnapshot : ModelSnapshot
+    [Migration("20221210000537_archivosxds")]
+    partial class archivosxds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
@@ -79,9 +81,6 @@ namespace PNT_PROYECTO.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("ContentType")
-                        .HasColumnType("TEXT");
 
                     b.Property<byte[]>("Data")
                         .HasColumnType("BLOB");
