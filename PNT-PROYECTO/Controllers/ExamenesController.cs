@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -102,15 +103,30 @@ namespace PNT_PROYECTO.Controllers
                 return NotFound();
             }
 
-            var examen = await _context.Examen.FindAsync(id);
+            var examen = await _context.Examen
+                .Include(j => j.Materiales)
+                .Include(j=> j.Profe)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (examen == null)
             {
                 return NotFound();
             }
+            ExamenViewModel modelo = new ExamenViewModel();
+            modelo.ProfeId = examen.ProfeId;
+            modelo.Id = examen.Id;
+            modelo.Titulo = examen.Titulo;
+            modelo.Fecha = examen.Fecha;
+            modelo.Profe = examen.Profe;
 
-            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", examen.ProfeId);
+            modelo.MaterialesSeleccionados = new List<Int32>();
+            foreach (Material m in examen.Materiales)
+            {
+                modelo.MaterialesSeleccionados.Add(m.Id);
+            }
+            modelo.Materiales = new SelectList(_context.Material, "Id", "Titulo");
 
-            return View(examen);
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido");
+            return View(modelo);
         }
 
         // POST: Examenes/Edit/5
@@ -119,18 +135,39 @@ namespace PNT_PROYECTO.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "ADMIN,ADJUNTO")]
-        public async Task<IActionResult> Edit(int id, Examen examen)
+        public async Task<IActionResult> Edit(int id, ExamenViewModel examenVM)
         {
-            if (id != examen.Id)
+            if (id != examenVM.Id)
             {
                 return NotFound();
             }
+            var examen = await _context.Examen
+                .Include(j => j.Materiales)
+                .Include(j => j.Profe)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ModelState.IsValid)
             {
+                examen.Fecha = examenVM.Fecha;
+                examen.Titulo = examenVM.Titulo;
+                examen.ProfeId = examenVM.ProfeId;
+                examen.Profe = examenVM.Profe;
+
+                foreach(var i in examen.Materiales.ToList()) 
+                {
+                    examen.Materiales.Remove(i);
+                }
+
+                await _context.SaveChangesAsync();
+
+                foreach (Int32 materialId in examenVM.MaterialesSeleccionados)
+                {
+                    examen.Materiales.Add(await _context.Material.FindAsync(materialId));
+                }
+                
                 try
                 {
-                    _context.Update(examen);
+                    _context.Add(examen);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -144,10 +181,11 @@ namespace PNT_PROYECTO.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "Legajo", examen.ProfeId);
-            return View(examen);
+            ViewData["Legajo"] = new SelectList(_context.Profesor, "Legajo", "NombreApellido", examen.ProfeId);
+            return View(examenVM);
         }
 
         // GET: Examenes/Delete/5

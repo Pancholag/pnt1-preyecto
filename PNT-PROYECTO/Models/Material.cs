@@ -9,13 +9,13 @@ namespace PNT_PROYECTO.Models
         public int Id { get; set; }
 
         //solo ayuda en el create
-        [Required]
         [NotMapped]
         public IFormFile? Archivo { get; set; }
 
         public string? FileName { get; set; }
         public string? ContentType { get; set; }
         public byte[]? Data { get; set; }
+
         [Required]
         public string? Texto { get; set; }
         [Required]

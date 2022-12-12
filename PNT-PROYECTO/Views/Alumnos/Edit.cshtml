@@ -28,6 +28,16 @@
                 <input asp-for="Mail" class="form-control" />
                 <span asp-validation-for="Mail" class="text-danger"></span>
             </div>
+            
+            <div>
+                @{
+                    if (ViewBag.mensajeError != null)
+                    {
+                        <label class="control-label danger">@ViewBag.mensajeError</label>
+                    }
+                }
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

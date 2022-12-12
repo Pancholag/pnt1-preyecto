@@ -16,7 +16,7 @@
        
     @{
         foreach (Material m in Model.Materiales) {
-            <p>@(m.Titulo)</p>
+            <a asp-controller="Materiales" asp-action="Details" asp-route-id="@m.Id">@m.Titulo</a>
         }
     }
 

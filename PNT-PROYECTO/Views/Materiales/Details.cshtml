@@ -13,12 +13,12 @@
 
     <p> @Html.DisplayFor(model => model.Texto)</p>
 
-    <p>@Html.DisplayFor(model => model.FileName)</p>
-
-
+    <a asp-action="Download" asp-route-id="@Model?.Id">@Html.DisplayFor(model => model.FileName)</a>
+    <br />
+    <p></p>
 </div>
 
-<a asp-action="Download" asp-route-id="@Model?.Id">Descargar</a>
+
 
 <div>
     @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))

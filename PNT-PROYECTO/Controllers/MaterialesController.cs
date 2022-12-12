@@ -120,14 +120,17 @@ namespace PNT_PROYECTO.Controllers
                 material.VecesDescargado = 0;
                 material.VecesVisto = 0;
 
-                using (var memoryStream = new MemoryStream())
+                if (material.Archivo != null)
                 {
-                    await material.Archivo.CopyToAsync(memoryStream);
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await material.Archivo.CopyToAsync(memoryStream);
 
-                    material.Data = memoryStream.ToArray();
+                        material.Data = memoryStream.ToArray();
+                    }
+                    material.FileName = material.Archivo.FileName;
+                    material.ContentType = material.Archivo.ContentType;
                 }
-                material.FileName = material.Archivo.FileName;
-                material.ContentType = material.Archivo.ContentType;
 
                 _stockContext.Add(material);
                 await _stockContext.SaveChangesAsync();
@@ -170,6 +173,22 @@ namespace PNT_PROYECTO.Controllers
 
             if (ModelState.IsValid)
             {
+
+                if (material.Archivo != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await material.Archivo.CopyToAsync(memoryStream);
+
+                        material.Data = memoryStream.ToArray();
+                    }
+
+                    material.FileName = material.Archivo.FileName;
+                    material.ContentType = material.Archivo.ContentType;
+
+                    material.VecesDescargado = 0;
+                }
+
                 try
                 {
                     _stockContext.Update(material);

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PNT_PROYECTO.Data;
+using PNT_PROYECTO.Migrations;
 using PNT_PROYECTO.Models;
 
 namespace PNT_PROYECTO.Controllers
@@ -114,6 +115,12 @@ namespace PNT_PROYECTO.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    var listaPersonas = _context.Persona.Where(o => o.Mail == alumno.Mail).ToList();
+                    if (listaPersonas.Count != 0)
+                    {
+                        ViewBag.mensajeError = "Mail ya registrado";
+                        return View(alumno);
+                    }
                     try
                     {
                         _context.Update(alumno);
