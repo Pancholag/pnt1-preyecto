@@ -198,6 +198,8 @@ namespace PNT_PROYECTO.Controllers
             }
 
             var examen = await _context.Examen
+                .Include(x => x.Materiales)
+                .Include(x => x.Profe)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (examen == null)
             {

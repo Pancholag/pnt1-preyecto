@@ -1,10 +1,24 @@
 ﻿@model IEnumerable<PNT_PROYECTO.Models.Profesor>
 
-@{
-    ViewData["Title"] = "Index";
+
+
+@if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
+{
+    <h1>Profesores</h1>
+    ViewData["Title"] = "Profesores";
+
+}
+else if (User.IsInRole("ALUMNO"))
+{
+    <h1>Docentes</h1>
+    ViewData["Title"] = "Docentes";
+}
+else
+{
+    <h1>Nuestro Equipo</h1>
+    ViewData["Title"] = "Nuestro Equipo";
 }
 
-<h1>Index</h1>
 
 @*reemplazado por el registrar profe
     <p>
@@ -13,20 +27,24 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaInicio)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
+            @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.FechaInicio)
+                </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mail)
+                </th>
+            }
             <th>
                 @Html.DisplayNameFor(model => model.Tipo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NombreApellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mail)
             </th>
             <th></th>
         </tr>
@@ -35,32 +53,36 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaInicio)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
+                @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaInicio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mail)
+                    </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.Tipo)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NombreApellido)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mail)
-                </td>
+
                 <td>
                     @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Legajo">Edit</a>
+                        <a asp-action="Edit" asp-route-id="@item.Legajo">Modificar</a>
                         <span>|</span>
                     }
-                    <a asp-action="Details" asp-route-id="@item.Legajo">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Legajo">Ver Perfil</a>
                     @if (User.IsInRole("ADMIN"))
                     {
                         <span>|</span>
-                        <a asp-action = "Delete" asp-route-id = "@item.Legajo"> Delete </a>
+                        <a asp-action="Delete" asp-route-id="@item.Legajo">Borrar</a>
                     }
                 </td>
             </tr>

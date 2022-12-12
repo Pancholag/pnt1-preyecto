@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<PNT_PROYECTO.Models.Alumno>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Alumnos";
 }
 
-<h1>Index</h1>
+<h1>Alumnos</h1>
 
 @*boton que fue reemplazado por el registrar
 <p>
@@ -15,7 +15,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NombreApellido)
+                Nombre y Apellido
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Mail)
@@ -36,15 +36,15 @@
                 <td>
                     @if (User.IsInRole("ADMIN"))
                     {
-                        <a asp-action="Edit" asp-route-id="@item.Legajo">Edit</a>
+                        <a asp-action="Edit" asp-route-id="@item.Legajo">Modificar</a>
                         <span>|</span>
                     }
 
-                    <a asp-action="Details" asp-route-id="@item.Legajo">Details</a>
+                    <a asp-action="Details" asp-route-id="@item.Legajo">Perfil</a>
                     @if (User.IsInRole("ADMIN"))
                     {
                         <span>|</span>
-                        <a asp-action="Delete" asp-route-id="@item.Legajo">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@item.Legajo">Borrar</a>
                     }
                 </td>
             </tr>

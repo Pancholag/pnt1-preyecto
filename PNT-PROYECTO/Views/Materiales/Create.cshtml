@@ -1,49 +1,48 @@
 ﻿@model PNT_PROYECTO.Models.Material
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Agregar Material";
 }
 
-<h1>Create</h1>
+<h1>Agregar Material</h1>
 
-<h4>Material</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-
-            <div class="form-group">
-                <label asp-for="Archivo" class="control-label"></label>
-                <input asp-for="Archivo" class="form-control" type="file"/>
-                <span asp-validation-for="Archivo" class="text-danger"></span>
-            </div>
-            
-           
-            <div class="form-group">
-                <label asp-for="Texto" class="control-label"></label>
-                <input asp-for="Texto" class="form-control" />
-                <span asp-validation-for="Texto" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Titulo" class="control-label"></label>
                 <input asp-for="Titulo" class="form-control" />
                 <span asp-validation-for="Titulo" class="text-danger"></span>
             </div>
-            <div class="form-group">
+
+            <div class="form-group my-2">
+                <label asp-for="Texto" class="control-label"></label>
+                <input asp-for="Texto" class="form-control" />
+                <span asp-validation-for="Texto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group my-2 ">
+                <label asp-for="Archivo" class="control-label"></label>
+                <input asp-for="Archivo" class="form-control" type="file"/>
+                <span asp-validation-for="Archivo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group my-2">
                 <label asp-for="ProfeId" class="control-label">Nombre Docente</label>
                 <select asp-for="ProfeId" class="form-control" asp-items="ViewBag.Legajo"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Agregar Material" class="btn btn-primary my-4" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver</a>
 </div>
 
 @section Scripts {

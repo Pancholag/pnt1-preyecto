@@ -1,7 +1,7 @@
 ﻿@model PNT_PROYECTO.Models.Material
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles";
 }
 
 <h1>Material</h1>
@@ -9,7 +9,7 @@
 <div>
     <h4>@Html.DisplayFor(model => model.Titulo)</h4>
 
-    <p>@Html.DisplayFor(model => model.Profe.NombreApellido)</p>
+    <p><b>Autor: @Html.DisplayFor(model => model.Profe.NombreApellido)</b></p>
 
     <p> @Html.DisplayFor(model => model.Texto)</p>
 
@@ -23,15 +23,15 @@
 <div>
     @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
     {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Modificar</a>
         <span>|</span>
     }
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Volver</a>
 </div>
 @if (User.IsInRole("ADMIN"))
 {
     <div>
-        <p>veces visto: @Html.DisplayFor(model => model.VecesVisto)</p>
-        <p>veces descargado: @Html.DisplayFor(model => model.VecesDescargado)</p>
+        <p class="mt-4">Veces visto: @Html.DisplayFor(model => model.VecesVisto)</p>
+        <p>Veces descargado: @Html.DisplayFor(model => model.VecesDescargado)</p>
     </div>
 }

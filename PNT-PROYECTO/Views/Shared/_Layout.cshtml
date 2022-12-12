@@ -30,17 +30,25 @@
                             </li>
                         }
 
-
                         @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Profesores" asp-action="Index">Profesores</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Index">Alumnos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Profesores" asp-action="Details" asp-route-id="@User.Claims.ElementAt(2).Value">Mi Perfil</a>
                             </li>
                         }
                         else if (User.IsInRole("ALUMNO"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Profesores" asp-action="Index">Docentes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Details" asp-route-id="@User.Claims.ElementAt(2).Value">Mi Perfil</a>
                             </li>
                         }
                         else
@@ -50,31 +58,11 @@
                             </li>
                         }
 
-                        @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Index">Alumnos</a>
-                            </li>
-                        }
+                       
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Materiales" asp-action="Index">Materiales</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Examenes" asp-action="Index">Examenes</a>
-                            </li>
-                        }
-
-                        <!-- <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="RegistrarProfesor">Registrarse como profesor</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Register" asp-action="RegistrarAlumno">Registrarse como alumno</a>
-                        </li>
-                        registrar unificado en el if de abajo
-
-                        -->
+                        
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
@@ -87,6 +75,9 @@
                         }
                         else
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Examenes" asp-action="Index">Examenes</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Salir del sitio</a>
                             </li>

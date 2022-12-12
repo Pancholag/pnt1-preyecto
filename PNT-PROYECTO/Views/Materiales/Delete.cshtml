@@ -1,39 +1,38 @@
 ﻿@model PNT_PROYECTO.Models.Material
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Borrar";
 }
 
-<h1>Delete</h1>
+<h1>Borrar</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>¿Estás seguro de esto?</h3>
 <div>
-    <h4>Material</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Texto)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Texto)
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Archivo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FileName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Texto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Texto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Titulo)
+            <a asp-action="Download" asp-route-id="@Model?.Id">@Html.DisplayFor(model => model.FileName)</a>
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Borrar" class="btn btn-danger" /> |
+        <a asp-action="Index">Volver</a>
     </form>
 </div>
