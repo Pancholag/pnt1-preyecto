@@ -6,8 +6,14 @@
     <title>@ViewData["Title"] - PNT_PROYECTO</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/sb-admin-2.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/fontawesome.min.css" asp-append-version="true">
     <link rel="stylesheet" href="~/PNT_PROYECTO.styles.css" asp-append-version="true" />
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css" asp-append-version="true">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="css/sb-admin-2.min.css">
 
 </head>
 <body>
@@ -84,9 +90,9 @@
                         }
                         <!---@if (User.IsInRole("ALUMNO"))
                         {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Details" asp-route-id="@User.Identity">Mis Datos</a>
-                                        </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link text-dark" asp-area="" asp-controller="Alumnos" asp-action="Details" asp-route-id="@User.Identity">Mis Datos</a>
+                                            </li>
                         }--->
                     </ul>
                 </div>
@@ -100,7 +106,7 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div>
             &copy; 2022 - Programación de Nuevas Tecnologías 1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Informacion Adicional</a>
         </div>
     </footer>
