@@ -1,15 +1,22 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Registrarse";
 }
-
-<h1>Registrate!</h1>
 
 
 
 <div class="text-center">
-    <a class="btn btn-danger ml-5" asp-action="RegistrarProfesor">Soy un profesor</a>
-    
-    <a class="btn btn-primary" asp-action="RegistrarAlumno">Soy un alumno</a>
-
+    <div class="row">
+        <h1>¡Registrate!</h1>
+    </div>
+    <div class="row">
+        <div class="col-6 offset-3">
+            <a class="btn btn-danger" asp-action="RegistrarProfesor">Soy un profesor</a>
+            <a class="btn btn-primary" asp-action="RegistrarAlumno">Soy un alumno</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <img src="~/mafalda.png" class="mafalda">
+        </div>
+    </div>
 </div>

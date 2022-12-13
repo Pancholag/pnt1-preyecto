@@ -4,51 +4,14 @@
     ViewData["Title"] = "Registrate";
 }
 
-@*<h1>Registrate</h1>
-
-<h4>Alumno</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="RegistrarAlumno">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="NombreApellido" class="control-label"></label>
-                <input asp-for="NombreApellido" class="form-control" />
-                <span asp-validation-for="NombreApellido" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Mail" class="control-label"></label>
-                <input asp-for="Mail" class="form-control" />
-                <span asp-validation-for="Mail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div>
-                @{
-                    if (ViewBag.mensajeError != null)
-                    {
-                        <label class="control-label danger">@ViewBag.mensajeError</label>
-                    }
-                }
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>*@
 <div class="container">
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-5 alumnos">
+                    <img src="~/alumnos.jpg" class="imgA">
+                </div>
                 <div class="col-lg-7">
                     <div class="p-5">
                         <div class="text-center">
@@ -76,7 +39,7 @@
                                     }
                                 }
                             </div>
-                            <div class="form-group">l
+                            <div class="form-group" align="right">
                                 <input type="submit" value="Registrarse" class="btn btn-primary" />
                             </div>
                         </form>

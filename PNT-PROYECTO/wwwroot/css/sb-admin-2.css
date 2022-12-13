@@ -10803,15 +10803,15 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("https://source.unsplash.com/K4mSJ7kc0As/600x800");
-  background-position: center;
-  background-size: cover;
+    background: url("http://blog.pucp.edu.pe/blog/wp-content/uploads/sites/32/2011/04/mafalda-2.jpg");
+    background-position: center;
+    background-size: cover;
 }
 
 .bg-register-image {
-  background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
-  background-position: center;
-  background-size: cover;
+    background: url("http://blog.pucp.edu.pe/blog/wp-content/uploads/sites/32/2011/04/mafalda-2.jpg");
+    background-position: center;
+    background-size: cover;
 }
 
 .bg-password-image {
