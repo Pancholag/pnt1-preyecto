@@ -14,10 +14,10 @@
 
 
     <div class="my-4">
-    <p>Materiales:</p>    
+    <h5>Materiales Relacionados:</h5>    
     @{
         foreach (Material m in Model.Materiales) {
-            <a asp-controller="Materiales" asp-action="Details" asp-route-id="@m.Id">@m.Titulo</a>
+            <a asp-controller="Materiales" asp-action="Details" asp-route-id="@m.Id" class="mr-2">@m.Titulo</a> 
         }
     }
     </div>

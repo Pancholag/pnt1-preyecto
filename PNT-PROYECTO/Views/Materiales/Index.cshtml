@@ -18,11 +18,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Titulo)
             </th>
+            @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Texto)
+                </th>
+            }
+
             <th>
-                @Html.DisplayNameFor(model => model.Texto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Profe)
+                Creado por
             </th>
             <th></th>
         </tr>

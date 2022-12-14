@@ -108,12 +108,7 @@ namespace PNT_PROYECTO.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var listaPersonas = _context.Persona.Where(o => o.Mail == profesor.Mail).ToList();
-                    if (listaPersonas.Count != 0)
-                    {
-                        ViewBag.mensajeError = "Mail ya registrado";
-                        return View(profesor);
-                    }
+                    
                     try
                     {
                         _context.Update(profesor);
@@ -132,7 +127,7 @@ namespace PNT_PROYECTO.Controllers
                     }
                     return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
             else
                 return RedirectToAction("Index", "Home");
