@@ -16,22 +16,22 @@
     <a asp-action="Download" asp-route-id="@Model?.Id">@Html.DisplayFor(model => model.FileName)</a>
     <br />
     <p></p>
-</div>
-
-
-
-<div>
-    @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
-    {
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Modificar</a>
-        <span>|</span>
-    }
-    <a asp-action="Index">Volver</a>
-</div>
-@if (User.IsInRole("ADMIN"))
-{
     <div>
-        <p class="mt-4">Veces visto: @Html.DisplayFor(model => model.VecesVisto)</p>
-        <p>Veces descargado: @Html.DisplayFor(model => model.VecesDescargado)</p>
+        @if (User.IsInRole("ADMIN") || User.IsInRole("ADJUNTO") || User.IsInRole("ATPJTP"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model?.Id">Modificar</a>
+            <span>|</span>
+        }
+        <a asp-action="Index">Volver</a>
     </div>
-}
+    @if (User.IsInRole("ADMIN"))
+    {
+        <div>
+            <p class="mt-4">Veces visto: @Html.DisplayFor(model => model.VecesVisto)</p>
+            <p>Veces descargado: @Html.DisplayFor(model => model.VecesDescargado)</p>
+        </div>
+    }
+</div>
+
+
+
