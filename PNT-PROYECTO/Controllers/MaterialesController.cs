@@ -75,20 +75,8 @@ namespace PNT_PROYECTO.Controllers
         
         public async Task<FileResult> DownloadAsync(int id)
         {
-
             var material = await _stockContext.Material
                 .FirstOrDefaultAsync(m => m.Id == id);
-
-            using (var stream = new MemoryStream(material.Data))
-            {
-                var file = new FormFile(stream, 0, material.Data.Length, "name", material.FileName)
-                {
-                    Headers = new HeaderDictionary(),
-
-                };
-
-                material.Archivo = file;
-            }
 
             material.VecesDescargado++;
             _stockContext.Update(material);
